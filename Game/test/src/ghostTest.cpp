@@ -1,4 +1,4 @@
-#include "../include/ghost.hpp"
+#include "ghost.hpp"
 
 #include <cassert>
 
