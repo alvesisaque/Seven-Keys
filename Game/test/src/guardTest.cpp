@@ -1,93 +1,37 @@
-#include <iostream>
-#include <string>
-#include <list>
-#include <cppunit/TestCase.h>
-#include <cppunit/TestFixture.h>
-#include <cppunit/ui/text/TextTestRunner.h>
-#include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/TestResult.h>
-#include <cppunit/TestResultCollector.h>
-#include <cppunit/TestRunner.h>
-#include <cppunit/BriefTestProgressListener.h>
-#include <cppunit/CompilerOutputter.h>
-#include <netinet/in.h>
-#include <cassert>
+#include "../src/guard.cpp"
+#include "../src/room.cpp"
+#include "../src/map.cpp"
 
-#include "guard.hpp"
-#include "room.hpp"
-#include "map.hpp"
-
-using namespace CppUnit;
 using namespace std;
 
-class TestGuard : public CppUnit::TestFixture {
-    CPPUNIT_TEST_SUITE(TestGuard);
-    CPPUNIT_TEST(testConstructor);
-    CPPUNIT_TEST(testDestructor);
-    CPPUNIT_TEST_SUITE_END();
 
-    public:
-        void setUp(void);
-        void tearDown(void);
-
-    protected:
-        void testConstructor(void);
-        void testDestructor(void);
-
-    private:
-
-    };
-    void setUp(){
+class TestGuard{
+public:
+    TestGuard() {
 
     }
-    void TestGuard::testConstructor(void) {
+    void setUp(){
         Guard * GuardTestObj;
         Room * RoomTestObj;
         Map * MapTestObj;
+        printf("declarou os objeto");
         MapTestObj = new Map(4,1);
         RoomTestObj = new Room(MapTestObj, "sala 0", "None", nullptr, nullptr, nullptr, nullptr, 1);
         GuardTestObj =  new Guard(RoomTestObj, "guard", 0, 0, 60, false, "normal", 2);
-        CPPUNIT_ASSERT(60 == GuardTestObj->mass());
+        printf("criou os objeto");
         delete GuardTestObj;
         delete RoomTestObj;
         delete MapTestObj;
-        //CPPUNIT_ASSERT(0 == GuardTestObj->);
-        //CPPUNIT_ASSERT(0 == GuardTestObj->);
+        printf("deletou os objeto");
     }
-    void TestGuard::testDestructor(void) {
 
-    }
-    void TestGuard::tearDown(void) {
+};
 
-    }
-    CPPUNIT_TEST_SUITE_REGISTRATION( TestGuard );
+int main() {
+    TestGuard *testGuard = new TestGuard();
+    testGuard->setUp();
+}
 
-    int main() {
-
-        // informs test-listener about testresults
-        CPPUNIT_NS::TestResult testresult;
-
-        // register listener for collecting the test-results
-        CPPUNIT_NS::TestResultCollector collectedresults;
-        testresult.addListener (&collectedresults);
-
-        // register listener for per-test progress output
-        CPPUNIT_NS::BriefTestProgressListener progress;
-        testresult.addListener (&progress);
-
-        // insert test-suite at test-runner by registry
-        CPPUNIT_NS::TestRunner testrunner;
-        testrunner.addTest (CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest ());
-        testrunner.run(testresult);
-
-        // output results in compiler-format
-        CPPUNIT_NS::CompilerOutputter compileroutputter(&collectedresults, std::cerr);
-        compileroutputter.write ();
-
-        // return 0 if tests were successful
-        return collectedresults.wasSuccessful() ? 0 : 1;
-    }
     /*
     void get_playerx_test()
     {

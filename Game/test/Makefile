@@ -31,10 +31,6 @@ $(TEST): $(OBJ)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) -o $@ $(LIBS)
 	@echo --- Done
 
-lib: $(OBJ)
-	@echo ar rcs $(LIB_DIR)/libjtj.a $(OBJ)
-	@ar rcs $(LIB_DIR)/libjtj.a $(OBJ)
-
 clean:
 	@echo Cleaning...
 	@find . -name *.o -exec rm {} \;

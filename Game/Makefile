@@ -5,17 +5,19 @@ INC_DIR = include
 OBJ_DIR = obj
 LIB_DIR = lib
 BIN_DIR = bin
+SRC_DIR_TEST = test/src
+BIN_DIR_TEST = test/bin
 
 CC = g++
 
-CFLAGS = -W -Wall -pedantic -std=c++11 -MMD -g3 
+CFLAGS = -W -Wall -pedantic -std=c++11 -MMD -g3
 INCLUDES = -Iinclude `sdl2-config --cflags` -I/usr/local/include/ijengine
 LIBS = -lijengine `sdl2-config --libs` -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
 GAME = $(BIN_DIR)/$(NAME)
 
 SRC = ${wildcard $(SRC_DIR)/*.cpp}
-OBJ = ${addprefix $(OBJ_DIR)/, ${notdir ${SRC:.cpp=.o}}} 
+OBJ = ${addprefix $(OBJ_DIR)/, ${notdir ${SRC:.cpp=.o}}}
 
 .PHONY: clean depend
 
@@ -41,5 +43,11 @@ clean:
 dist-clean: clean
 	@echo Cleaning engine...
 	@find . -name *.a -exec rm {} \;
+
+testGuard: $(SRC_DIR_TEST)/guardTest.cpp
+	@echo Compiling $@
+	@mkdir -p $(BIN_DIR_TEST)
+	@$(CC) $(CFLAGS) $(INCLUDES) -o $(BIN_DIR_TEST)/$@ $<  $(LIBS)
+	@echo --- Done, $(BIN_DIR_TEST)/$@ created
 
 -include $(OBJ:.o=.d)
